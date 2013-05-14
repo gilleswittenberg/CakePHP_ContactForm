@@ -6,5 +6,6 @@
 - Clear Session from send mail
 - Add option for add extra Fields
 - Set fields in config
+- Add tests
 - Captcha
 - Manual
