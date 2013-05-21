@@ -56,6 +56,23 @@ class MessagesControllerTest extends ControllerTestCase {
 		));
 	}
 
+	public function testAddIncompleteData () {
+		Configure::write('ContactForm.sendInControllerAction', true);
+		$Messages = $this->generate('ContactForm.Messages', array(
+			'components' => array(
+				'ContactForm.Mail' => array('send')
+			)
+		));
+		$Messages->Message->useTable = 'ContactForm_messages';
+		$Messages->Mail
+			->expects($this->once())
+			->method('send')
+			->will($this->returnValue(true));
+		$result = $this->testAction('/contact_form/messages/add', array(
+			'data' => array('Message' => array('name' => 'John Doe', 'email' => 'johndoe@example.com'))
+		));
+	}
+
 	public function testSendInvalidId () {
 		$Messages = $this->generate('ContactForm.Messages', array(
 			'methods' => array(
