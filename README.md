@@ -45,11 +45,12 @@ Configure::write('ContactForm', array(
 ```
 
 ##ToDo
-- SendMailShell
-- Clear Session from send mail
-- Add option for add extra Fields
 - Set fields in config
-- Add tests
+- Add option for add extra Fields
+- SendMailShell
 - Captcha
+- Clear Session from send mail
 - Improve README Usage (add Schema generate, open page, etc.)
 - Disable form after submit (Javascript)
+- AJAX form
+- Allow for multiple different forms per application
