@@ -46,10 +46,10 @@ Configure::write('ContactForm', array(
 
 ##ToDo
 - SendMailShell
-- Install with Composer
 - Clear Session from send mail
 - Add option for add extra Fields
 - Set fields in config
 - Add tests
 - Captcha
-- Manual
+- Improve README Usage (add Schema generate, open page, etc.)
+- Disable form after submit (Javascript)
