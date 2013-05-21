@@ -36,8 +36,8 @@ class MessagesController extends ContactFormAppController {
 	public function send () {
 		$id = $this->Session->read('ContactForm.Message.id', $this->Message->id);
 		$message = $this->Message->findById($id);
-		if (!$message) {
-			$this->redirect('add');
+		if (empty($message)) {
+			return $this->redirect('add');
 		}
 		$this->set('message', $message);
 	}

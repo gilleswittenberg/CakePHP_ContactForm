@@ -13,7 +13,7 @@ class MessageTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.contact_form.contactform_message'
+		'plugin.contact_form.ContactForm_message'
 	);
 
 /**
