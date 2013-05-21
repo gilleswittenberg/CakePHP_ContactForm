@@ -1,5 +1,5 @@
 <?php
-class MessagesController extends AppController {
+class MessagesController extends ContactFormAppController {
 
 	public $components = array('ContactForm.Mail');
 
