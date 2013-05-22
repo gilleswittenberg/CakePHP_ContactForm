@@ -40,4 +40,17 @@ class MailComponentTest extends CakeTestCase {
 		$this->assertInternalType('array', $this->Mail->send('johndoe@example.com', 'John Doe'));
 	}
 
+	public function testSendDefaultTemplate() {
+		Configure::write('ContactForm.template.view', 'default');
+		Configure::write('ContactForm.template.layout', 'default');
+		$result = $this->Mail->send('johndoe@example.com', 'John Doe');
+		$this->assertContains('This email was sent using the CakePHP Framework', $result['message']);
+	}
+
+	public function testSendNoTemplate() {
+		Configure::write('ContactForm.template.view', false);
+		Configure::write('ContactForm.template.layout', false);
+		$result = $this->Mail->send('johndoe@example.com', 'John Doe');
+		$this->assertEmpty('', $result['message']);
+	}
 }
