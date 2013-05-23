@@ -120,4 +120,43 @@ class MessagesControllerTest extends ControllerTestCase {
 		$this->assertTag($matcherInput, $html);
 		$this->assertTag($matcherTextarea, $html);
 	}
+
+	public function testViewInputsCustomLabels () {
+		Configure::write('ContactForm.fields', array(
+			'name' => array(
+				'label' => 'Your name'
+			),
+			'email' => array(),
+			'subject' => array(),
+			'message' => array(
+				'type' => 'textarea',
+				'label' => false
+			)
+		));
+		$Messages = $this->generate('ContactForm.Messages');
+		$html = $this->testAction('/contact_form/messages/add', array('method' => 'get', 'return' => 'view'));
+		$matcherLabelName = array('tag' => 'label', 'content' => 'Your name');
+		$matcherLabels = array('tag' => 'label');
+		$this->assertTag($matcherLabelName, $html);
+		$this->assertEquals(preg_match('/<label for="MessageMessage">Message<\/label>/', $html), 0);
+	}
+
+	public function testViewInputsHiddenAndValue () {
+		Configure::write('ContactForm.fields', array(
+			'name' => array(),
+			'email' => array(),
+			'subject' => array(
+				'type' => 'hidden',
+				'value' => 'Default subject'
+			),
+			'message' => array(
+				'type' => 'textarea',
+				'label' => false
+			)
+		));
+		$Messages = $this->generate('ContactForm.Messages');
+		$html = $this->testAction('/contact_form/messages/add', array('method' => 'get', 'return' => 'view'));
+		$matcherLabel = array('tag' => 'input', 'attributes' => array('name' => 'data[Message][subject]', 'type' => 'hidden', 'value' => 'Default subject'));
+		$this->assertTag($matcherLabel, $html);
+	}
 }
