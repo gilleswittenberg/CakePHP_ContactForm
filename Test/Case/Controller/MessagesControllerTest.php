@@ -29,7 +29,7 @@ class MessagesControllerTest extends ControllerTestCase {
 				'ContactForm.Mail' => array('send')
 			)
 		));
-		$Messages->Message->useTable = 'ContactForm_messages';
+		$Messages->Message = new Message();
 		$Messages->Mail
 			->expects($this->once())
 			->method('send')
@@ -46,7 +46,6 @@ class MessagesControllerTest extends ControllerTestCase {
 				'ContactForm.Mail' => array('send')
 			)
 		));
-		$Messages->Message->useTable = 'ContactForm_messages';
 		$Messages->Mail
 			->expects($this->never())
 			->method('send')
@@ -63,7 +62,6 @@ class MessagesControllerTest extends ControllerTestCase {
 				'ContactForm.Mail' => array('send')
 			)
 		));
-		$Messages->Message->useTable = 'ContactForm_messages';
 		$Messages->Mail
 			->expects($this->once())
 			->method('send')
@@ -79,7 +77,6 @@ class MessagesControllerTest extends ControllerTestCase {
 				'redirect'
 			)
 		));
-		$Messages->Message->useTable = 'ContactForm_messages';
 		$Messages
 			->expects($this->once())
 			->method('redirect');
@@ -95,7 +92,6 @@ class MessagesControllerTest extends ControllerTestCase {
 				'Session'
 			)
 		));
-		$Messages->Message->useTable = 'ContactForm_messages';
 		$Messages->Session
 			->expects($this->once())
 			->method('read')
@@ -106,13 +102,22 @@ class MessagesControllerTest extends ControllerTestCase {
 		$result = $this->testAction('/contact_form/messages/send');
 	}
 
-/**
- * testSend method
- *
- * @return void
- */
-	public function testSend() {
-		// no session set
-
+	public function testViewInputs () {
+		Configure::write('ContactForm.fields', array(
+			'name' => array(),
+			'email' => array(),
+			'subject' => array(),
+			'message' => array(
+				'type' => 'textarea'
+			)
+		));
+		$Messages = $this->generate('ContactForm.Messages');
+		$html = $this->testAction('/contact_form/messages/add', array('method' => 'get', 'return' => 'view'));
+		$matcherLabelName = array('tag' => 'label', 'content' => 'Name');
+		$matcherInput = array('tag' => 'input', 'attributes' => array('type' => 'email', 'name' => 'data[Message][email]'));
+		$matcherTextarea = array('tag' => 'textarea', 'attributes' => array('name' => 'data[Message][message]'));
+		$this->assertTag($matcherLabelName, $html);
+		$this->assertTag($matcherInput, $html);
+		$this->assertTag($matcherTextarea, $html);
 	}
 }

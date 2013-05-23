@@ -35,6 +35,7 @@ class MessagesController extends ContactFormAppController {
 				$this->Session->setFlash(__('Message not send'));
 			}
 		}
+		$this->set('fields', Configure::read('ContactForm.fields'));
 	}
 
 	public function send () {

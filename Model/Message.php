@@ -17,4 +17,8 @@ class Message extends AppModel {
 			'rule' => 'notEmpty',
 		)
 	);
+
+	public function getFields () {
+		return $this->defaultFields;
+	}
 }
