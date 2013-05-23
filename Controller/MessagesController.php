@@ -18,7 +18,8 @@ class MessagesController extends ContactFormAppController {
 					$name = !empty($this->data['Message']['name']) ? $this->data['Message']['name'] : '';
 					$subject = !empty($this->data['Message']['subject']) ? $this->data['Message']['subject'] : '';
 					$message = !empty($this->data['Message']['message']) ? $this->data['Message']['message'] : '';
-					if ($this->Mail->send($email, $name, $subject, $message)) {
+					$viewVars = !empty($this->data['Message']) ? $this->data['Message'] : array();
+					if ($this->Mail->send($email, $name, $subject, $message, $viewVars)) {
 						if (!$this->Message->save(array('send' => true, 'send_datetime' => date('Y-m-d H:i:s')))) {
 							$this->log('ContactForm', 'Saving send and send_datetime failed');
 						}
