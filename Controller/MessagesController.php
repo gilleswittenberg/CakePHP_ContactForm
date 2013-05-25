@@ -1,7 +1,7 @@
 <?php
 class MessagesController extends ContactFormAppController {
 
-	public $components = array('ContactForm.Mail');
+	public $components = array('RequestHandler', 'ContactForm.Mail');
 
 	public function beforeFilter () {
 		parent::beforeFilter();
@@ -23,20 +23,47 @@ class MessagesController extends ContactFormAppController {
 						if (!$this->Message->save(array('send' => true, 'send_datetime' => date('Y-m-d H:i:s')))) {
 							$this->log('ContactForm', 'Saving send and send_datetime failed');
 						}
+						if (!$this->request->is('ajax')) {
+							$this->Session->setFlash(__('Message send'), 'default', array('class' => 'message success'));
+							$this->Session->write('ContactForm.Message.id', $this->Message->id);
+							$this->redirect('send');
+						} else {
+							$this->response->statusCode('201');
+							$this->set('data', $this->data);
+							$this->set('result', 'success');
+						}
+					} else {
+						if (!$this->request->is('ajax')) {
+							$this->Session->setFlash(__('Message not send'));
+						} else {
+							$this->response->statusCode('400');
+							$this->set('data', $this->data);
+							$this->set('result', 'fail');
+						}
+					}
+				} else {
+					if (!$this->request->is('ajax')) {
 						$this->Session->write('ContactForm.Message.id', $this->Message->id);
 						$this->redirect('send');
 					} else {
-						$this->Session->setFlash(__('Message not send'));
+						$this->response->statusCode('201');
+						$this->set('data', $this->data);
+						$this->set('result', 'success');
 					}
-				} else {
-					$this->Session->write('ContactForm.Message.id', $this->Message->id);
-					$this->redirect('send');
 				}
 			} else {
-				$this->Session->setFlash(__('Message not send'));
+				if (!$this->request->is('ajax')) {
+					$this->Session->setFlash(__('Message not send'));
+				} else {
+					$this->response->statusCode('400');
+					$this->set('data', $this->data);
+					$this->set('result', 'fail');
+				}
 			}
 		}
-		$this->set('fields', Configure::read('ContactForm.fields'));
+		if (!$this->request->is('ajax')) {
+			$this->set('fields', Configure::read('ContactForm.fields'));
+		}
 	}
 
 	public function send () {

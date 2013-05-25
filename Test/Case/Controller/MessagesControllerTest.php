@@ -182,4 +182,40 @@ class MessagesControllerTest extends ControllerTestCase {
 			->will($this->returnValue(true));
 		$html = $this->testAction('/contact_form/messages/add', array('method' => 'post', 'data' => $data));
 	}
+
+	public function testAjaxResponseFail () {
+		$_ENV['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$_SERVER['HTTP_ACCEPT'] = 'application/json';
+		$Messages = $this->generate('ContactForm.Messages');
+		$data = array(
+			'Message' => array(
+				'name' => '',
+				'email' => 'john@example.com',
+				'subject' => 'Subject',
+				'message' => 'message'
+			)
+		);
+		$Messages = $this->generate('ContactForm.Messages');
+		$result = $this->testAction('/contact_form/messages/add', array('method' => 'post', 'data' => $data, 'return' => 'view'));
+		$json = json_decode($result, true);
+		$this->assertEquals('fail', $json['result']);
+	}
+
+	public function testAjaxResponseSuccess () {
+		$_ENV['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$_SERVER['HTTP_ACCEPT'] = 'application/json';
+		$Messages = $this->generate('ContactForm.Messages');
+		$data = array(
+			'Message' => array(
+				'name' => 'John Doe',
+				'email' => 'john@example.com',
+				'subject' => 'Subject',
+				'message' => 'message'
+			)
+		);
+		$Messages = $this->generate('ContactForm.Messages');
+		$result = $this->testAction('/contact_form/messages/add', array('method' => 'post', 'data' => $data, 'return' => 'view'));
+		$json = json_decode($result, true);
+		$this->assertEquals('success', $json['result']);
+	}
 }
