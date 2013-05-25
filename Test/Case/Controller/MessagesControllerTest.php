@@ -159,4 +159,27 @@ class MessagesControllerTest extends ControllerTestCase {
 		$matcherLabel = array('tag' => 'input', 'attributes' => array('name' => 'data[Message][subject]', 'type' => 'hidden', 'value' => 'Default subject'));
 		$this->assertTag($matcherLabel, $html);
 	}
+
+	public function testViewInputsExtraFields () {
+		$Messages = $this->generate('ContactForm.Messages', array(
+			'components' =>  array(
+				'Mail'
+			)
+		));
+		$data = array(
+			'Message' => array(
+				'name' => 'John Doe',
+				'email' => 'john@example.com',
+				'website' => 'www.example.com',
+				'subject' => 'Subject',
+				'message' => 'message'
+			)
+		);
+		$Messages->Mail
+			->expects($this->once())
+			->method('send')
+			->with('john@example.com', 'John Doe', 'Subject', 'message', $data['Message'])
+			->will($this->returnValue(true));
+		$html = $this->testAction('/contact_form/messages/add', array('method' => 'post', 'data' => $data));
+	}
 }
