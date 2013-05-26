@@ -51,9 +51,10 @@ Configure::write('ContactForm', array(
 ```
 
 ##ToDo
+- Configurable validation for fields
+- Configurable flash messages
 - SendMailShell
 - Captcha
 - Clear Session from send mail
-- Improve README Usage (add Schema generate, open page, etc.)
 - Disable form after submit (Javascript)
 - Allow for multiple different forms per application
