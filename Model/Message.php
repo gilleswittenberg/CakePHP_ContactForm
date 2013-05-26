@@ -11,8 +11,4 @@ class Message extends AppModel {
 			'rule' => 'email',
 		)
 	);
-
-	public function getFields () {
-		return $this->defaultFields;
-	}
 }
