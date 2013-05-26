@@ -2,7 +2,7 @@
 <?php echo $this->Session->flash(); ?>
 </div>
 <?php
-echo $this->Form->create(array('id' => 'ContactFormMessageAddForm'));
+echo $this->Form->create('ContactForm.Message', array('url' => '/contact_form/messages/add', 'id' => 'ContactFormMessageAddForm'));
 foreach ($fields as $name => $options) {
 	echo $this->Form->input($name, $options);
 }
