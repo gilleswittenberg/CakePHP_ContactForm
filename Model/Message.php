@@ -9,12 +9,6 @@ class Message extends AppModel {
 		),
 		'email' => array(
 			'rule' => 'email',
-		),
-		'subject' => array(
-			'rule' => 'notEmpty',
-		),
-		'message' => array(
-			'rule' => 'notEmpty',
 		)
 	);
 
