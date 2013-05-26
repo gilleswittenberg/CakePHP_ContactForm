@@ -33,10 +33,16 @@ In `APP_DIR/Plugin` directory type
 git clone git://github.com/gilleswittenberg/CakePHP_ContactForm.git ContactForm
 ```
 
+## Create schema
+Run cake shell schema
+```bash
+cake schema create --plugin ContactForm
+```
+
 ## Usage
 In `APP_DIR/Config/bootstrap.php` add:
 ```php
-CakePlugin::load('ContactForm');
+CakePlugin::load('ContactForm', array('bootstrap' => true, 'routes' => true));
 
 Configure::write('ContactForm', array(
 	'mailTo' => 'mail@example.com',
