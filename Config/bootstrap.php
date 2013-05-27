@@ -1,4 +1,6 @@
 <?php
+Configure::write('ContactForm.mailTo', 'mail@example.com');
+Configure::write('ContactForm.sendInControllerAction', true);
 Configure::write('ContactForm.template.view', 'default');
 Configure::write('ContactForm.template.layout', 'default');
 Configure::write('ContactForm.fields', array(
