@@ -3,6 +3,8 @@ $(function () {
 	var $form = $('#ContactFormMessageAddForm');
 	var action = $form.attr('action');
 	var sending = false;
+	var messageSuccess = (window.ContactForm && window.ContactForm.messageSuccess) ? window.ContactForm.messageSuccess : '';
+	var messageFail = (window.ContactForm && window.ContactForm.messageFail) ? window.ContactForm.messageFail : '';
 
 	function setMessage (message, result) {
 		var className = 'message';
@@ -30,10 +32,10 @@ $(function () {
 		// make AJAX call to form's action value
 		var jqxhr = $.post(action, data, null, 'json')
 		.done(function () {
-			setMessage('Message send', 'success');
+			setMessage(messageSuccess, 'success');
 		})
 		.fail(function () {
-			setMessage('Message not send');
+			setMessage(messageFail);
 		})
 		.always(function () {
 			sending = false;

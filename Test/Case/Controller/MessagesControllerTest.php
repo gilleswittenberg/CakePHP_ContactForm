@@ -22,11 +22,33 @@ class MessagesControllerTest extends ControllerTestCase {
  *
  * @return void
  */
+	public function testAddNonValid () {
+		Configure::write('ContactForm.sendInControllerAction', true);
+		$Messages = $this->generate('ContactForm.Messages', array(
+			'components' => array(
+				'ContactForm.Mail' => array('send'),
+				'Session'
+			)
+		));
+		$Messages->Message = new Message();
+		$Messages->Mail
+			->expects($this->never())
+			->method('send');
+		$Messages->Session
+			->expects($this->once())
+			->method('setFlash')
+			->with('Message not send');
+		$result = $this->testAction('/contact_form/messages/add', array(
+			'data' => array('Message' => array('name' => '', 'email' => 'johndoe@example.com'))
+		));
+	}
+
 	public function testAddSendInControllerAction () {
 		Configure::write('ContactForm.sendInControllerAction', true);
 		$Messages = $this->generate('ContactForm.Messages', array(
 			'components' => array(
-				'ContactForm.Mail' => array('send')
+				'ContactForm.Mail' => array('send'),
+				'Session'
 			)
 		));
 		$Messages->Message = new Message();
@@ -34,6 +56,10 @@ class MessagesControllerTest extends ControllerTestCase {
 			->expects($this->once())
 			->method('send')
 			->will($this->returnValue(true));
+		$Messages->Session
+			->expects($this->once())
+			->method('setFlash')
+			->with('Message send');
 		$result = $this->testAction('/contact_form/messages/add', array(
 			'data' => array('Message' => array('name' => 'John Doe', 'email' => 'johndoe@example.com', 'subject' => 'Subject', 'message' => 'Message\nline of text'))
 		));
@@ -43,13 +69,17 @@ class MessagesControllerTest extends ControllerTestCase {
 		Configure::write('ContactForm.sendInControllerAction', false);
 		$Messages = $this->generate('ContactForm.Messages', array(
 			'components' => array(
-				'ContactForm.Mail' => array('send')
+				'ContactForm.Mail' => array('send'),
+				'Session'
 			)
 		));
 		$Messages->Mail
 			->expects($this->never())
-			->method('send')
-			->will($this->returnValue(true));
+			->method('send');
+		$Messages->Session
+			->expects($this->once())
+			->method('setFlash')
+			->with('Message send');
 		$result = $this->testAction('/contact_form/messages/add', array(
 			'data' => array('Message' => array('name' => 'John Doe', 'email' => 'johndoe@example.com', 'subject' => 'Subject', 'message' => 'Message\nline of text'))
 		));

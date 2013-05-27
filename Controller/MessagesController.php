@@ -24,7 +24,7 @@ class MessagesController extends ContactFormAppController {
 							$this->log('ContactForm', 'Saving send and send_datetime failed');
 						}
 						if (!$this->request->is('ajax')) {
-							$this->Session->setFlash(__('Message send'), 'default', array('class' => 'message success'));
+							$this->Session->setFlash(Configure::read('ContactForm.messageSuccess'), 'default', array('class' => 'message success'));
 							$this->Session->write('ContactForm.Message.id', $this->Message->id);
 							$this->redirect('send');
 						} else {
@@ -34,7 +34,7 @@ class MessagesController extends ContactFormAppController {
 						}
 					} else {
 						if (!$this->request->is('ajax')) {
-							$this->Session->setFlash(__('Message not send'));
+							$this->Session->setFlash(Configure::read('ContactForm.messageFail'));
 						} else {
 							$this->response->statusCode('400');
 							$this->set('data', $this->data);
@@ -43,6 +43,7 @@ class MessagesController extends ContactFormAppController {
 					}
 				} else {
 					if (!$this->request->is('ajax')) {
+						$this->Session->setFlash(Configure::read('ContactForm.messageSuccess'), 'default', array('class' => 'message success'));
 						$this->Session->write('ContactForm.Message.id', $this->Message->id);
 						$this->redirect('send');
 					} else {
@@ -53,7 +54,7 @@ class MessagesController extends ContactFormAppController {
 				}
 			} else {
 				if (!$this->request->is('ajax')) {
-					$this->Session->setFlash(__('Message not send'));
+					$this->Session->setFlash(Configure::read('ContactForm.messageFail'));
 				} else {
 					$this->response->statusCode('400');
 					$this->set('data', $this->data);
@@ -63,6 +64,8 @@ class MessagesController extends ContactFormAppController {
 		}
 		if (!$this->request->is('ajax')) {
 			$this->set('fields', Configure::read('ContactForm.fields'));
+			$this->set('messageSuccess', Configure::read('ContactForm.messageSuccess'));
+			$this->set('messageFail', Configure::read('ContactForm.messageFail'));
 		}
 	}
 
