@@ -252,4 +252,19 @@ class MessagesControllerTest extends ControllerTestCase {
 		$json = json_decode($result, true);
 		$this->assertEquals('success', $json['result']);
 	}
+
+	public function testViewAjaxFalse () {
+		Configure::write('ContactForm.fields', array(
+			'name' => array(),
+			'email' => array(),
+			'subject' => array(),
+			'message' => array(
+				'type' => 'textarea',
+			)
+		));
+		Configure::write('ContactForm.ajax', false);
+		$Messages = $this->generate('ContactForm.Messages');
+		$html = $this->testAction('/contact_form/messages/add', array('method' => 'get', 'return' => 'view'));
+		$this->assertEquals(preg_match('/<script/', $html), 0);
+	}
 }
