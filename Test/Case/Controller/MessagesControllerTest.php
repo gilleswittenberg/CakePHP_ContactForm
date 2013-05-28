@@ -23,6 +23,7 @@ class MessagesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testAddNonValid () {
+		Configure::write('ContactForm.messageFail', 'Message not send');
 		Configure::write('ContactForm.sendInControllerAction', true);
 		$Messages = $this->generate('ContactForm.Messages', array(
 			'components' => array(
@@ -44,6 +45,7 @@ class MessagesControllerTest extends ControllerTestCase {
 	}
 
 	public function testAddSendInControllerAction () {
+		Configure::write('ContactForm.messageSuccess', 'Message send');
 		Configure::write('ContactForm.sendInControllerAction', true);
 		$Messages = $this->generate('ContactForm.Messages', array(
 			'components' => array(
@@ -66,6 +68,7 @@ class MessagesControllerTest extends ControllerTestCase {
 	}
 
 	public function testAddSendInControllerActionFalse () {
+		Configure::write('ContactForm.messageSuccess', 'Message send');
 		Configure::write('ContactForm.sendInControllerAction', false);
 		$Messages = $this->generate('ContactForm.Messages', array(
 			'components' => array(
@@ -191,6 +194,7 @@ class MessagesControllerTest extends ControllerTestCase {
 	}
 
 	public function testViewInputsExtraFields () {
+		Configure::write('ContactForm.sendInControllerAction', true);
 		$Messages = $this->generate('ContactForm.Messages', array(
 			'components' =>  array(
 				'Mail'

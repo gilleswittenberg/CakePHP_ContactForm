@@ -1,4 +1,5 @@
 <?php
+/*
 Configure::write('ContactForm.mailTo', 'mail@example.com');
 Configure::write('ContactForm.messageSuccess', __('Message send'));
 Configure::write('ContactForm.messageFail', __('Message not send'));
@@ -13,3 +14,4 @@ Configure::write('ContactForm.fields', array(
 		'type' => 'textarea'
 	)
 ));
+*/
