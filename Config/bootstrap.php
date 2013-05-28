@@ -1,9 +1,10 @@
 <?php
-/*
 Configure::write('ContactForm.mailTo', 'mail@example.com');
 Configure::write('ContactForm.messageSuccess', __('Message send'));
 Configure::write('ContactForm.messageFail', __('Message not send'));
 Configure::write('ContactForm.sendInControllerAction', true);
+Configure::write('ContactForm.ajax', 'true');
+Configure::write('ContactForm.includeJQuery', 'true');
 Configure::write('ContactForm.template.view', 'default');
 Configure::write('ContactForm.template.layout', 'default');
 Configure::write('ContactForm.fields', array(
@@ -14,4 +15,3 @@ Configure::write('ContactForm.fields', array(
 		'type' => 'textarea'
 	)
 ));
-*/
