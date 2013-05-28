@@ -267,4 +267,21 @@ class MessagesControllerTest extends ControllerTestCase {
 		$html = $this->testAction('/contact_form/messages/add', array('method' => 'get', 'return' => 'view'));
 		$this->assertEquals(preg_match('/<script/', $html), 0);
 	}
+
+	public function testViewIncludeJQueryFalse () {
+		Configure::write('ContactForm.fields', array(
+			'name' => array(),
+			'email' => array(),
+			'subject' => array(),
+			'message' => array(
+				'type' => 'textarea',
+			)
+		));
+		Configure::write('ContactForm.ajax', true);
+		Configure::write('ContactForm.includeJQuery', false);
+		$Messages = $this->generate('ContactForm.Messages');
+		$html = $this->testAction('/contact_form/messages/add', array('method' => 'get', 'return' => 'view'));
+		$this->assertEquals(preg_match('#src="//ajax\.googleapis\.com#', $html), 0);
+	}
+
 }
